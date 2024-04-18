@@ -111,7 +111,7 @@ def handle_keys(snake):
 
 def main():
     """Основная функция игры."""
-    clock = pygame.time.Clock()
+    clock = pygame.time.Clock()  # Объявляем переменную clock
     snake = Snake()
     apple = Apple()
 
