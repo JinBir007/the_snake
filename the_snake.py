@@ -8,7 +8,7 @@ pygame.init()
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 GRID_SIZE = 20
-BACKGROUND_COLOR = (0, 0, 0)
+BOARD_BACKGROUND_COLOR = (0, 0, 0)
 
 # Создание окна.
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -116,7 +116,7 @@ def main():
     apple = Apple()
 
     while True:
-        screen.fill(BACKGROUND_COLOR)
+        screen.fill(BOARD_BACKGROUND_COLOR)
         handle_keys(snake)
         snake.move()
 
