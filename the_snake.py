@@ -73,20 +73,26 @@ class Snake(GameObject):
 
 
 # Класс для яблока.
+
+
 class Apple(GameObject):
     def __init__(self):
         super().__init__()
         self.randomize_position()
 
     def randomize_position(self):
-        self.position = (random.randint(0, SCREEN_WIDTH // GRID_SIZE - 1) * GRID_SIZE,
-                         random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1) * GRID_SIZE)
+        self.position = (random.randint(0, SCREEN_WIDTH // GRID_SIZE - 1)
+                         * GRID_SIZE,
+                         random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1)
+                         * GRID_SIZE)
 
+    
     def draw(self):
         screen.blit(apple_image, self.position)
 
 
 # Функция для обработки нажатий клавиш.
+
 
 def handle_keys(snake):
     for event in pygame.event.get():
@@ -105,6 +111,7 @@ def handle_keys(snake):
 
 
 # Функция для основного игрового цикла.
+
 
 def main():
     clock = pygame.time.Clock()
