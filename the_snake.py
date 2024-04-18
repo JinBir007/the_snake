@@ -41,7 +41,7 @@ clock = pygame.time.Clock()
 class GameObject:
     """Базовый класс игровых объектов."""
 
-    def __init__(self, position=(0, 0), body_color=(255, 255, 255)):
+    def __init__(self, position = (0, 0), body_color=(255, 255, 255)):
         self.position = position
         self.body_color = body_color
 
@@ -73,8 +73,8 @@ class Snake(GameObject):
 
     def __init__(self):
         super().__init__((GRID_WIDTH // 2
-                          * GRID_SIZE, GRID_HEIGHT // 2
-                          * GRID_SIZE), SNAKE_COLOR)
+                           * GRID_SIZE, GRID_HEIGHT // 2
+                           * GRID_SIZE), SNAKE_COLOR)
         self.length = 1
         self.positions = [self.position]
         self.direction = RIGHT
@@ -92,6 +92,10 @@ class Snake(GameObject):
             self.positions.insert(0, new_head_pos)
             if len(self.positions) > self.length:
                 self.positions.pop()
+
+    def update_direction(self, new_direction):
+        """Обновление направления движения змейки."""
+        self.next_direction = new_direction
 
     def get_head_position(self):
         """Возвращает текущую позицию головы змейки."""
@@ -116,7 +120,8 @@ class Snake(GameObject):
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
 
-def handle_events(snake):
+# Определение функции handle_keys в модуле the_snake
+def handle_keys(snake):
     """Обработка пользовательского ввода."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -124,13 +129,16 @@ def handle_events(snake):
             raise SystemExit
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP and snake.direction != DOWN:
-                snake.next_direction = UP
+                snake.update_direction(UP)
             elif event.key == pygame.K_DOWN and snake.direction != UP:
-                snake.next_direction = DOWN
+                snake.update_direction(DOWN)
             elif event.key == pygame.K_LEFT and snake.direction != RIGHT:
-                snake.next_direction = LEFT
+                snake.update_direction(LEFT)
             elif event.key == pygame.K_RIGHT and snake.direction != LEFT:
-                snake.next_direction = RIGHT
+                snake.update_direction(RIGHT)
+
+
+handle_keys = handle_keys  # Присваивание переменной handle_keys функции handle_keys
 
 
 def update_snake(snake, apple):
@@ -154,12 +162,7 @@ def main():
         clock.tick(SPEED)
 
         # Обработка действий пользователя:
-        handle_events(snake)
-
-        # Обновление направления движения змейки:
-        if snake.next_direction:
-            snake.direction = snake.next_direction
-            snake.next_direction = None
+        handle_keys(snake)
 
         # Обновление состояния змейки:
         update_snake(snake, apple)
