@@ -1,3 +1,22 @@
+import pygame
+import random
+
+# Инициализация Pygame
+pygame.init()
+
+# Параметры окна
+SCREEN_WIDTH = 640
+SCREEN_HEIGHT = 480
+GRID_SIZE = 20
+BOARD_BACKGROUND_COLOR = (0, 0, 0)
+
+# Создание окна
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Snake Game")
+
+# Загрузка изображения яблока
+apple_image = pygame.image.load("apple.png")  # Путь к изображению яблока
+
 
 # Базовый класс для игровых объектов
 class GameObject:
@@ -31,7 +50,8 @@ class Snake(GameObject):
 
         cur_head_pos = self.get_head_position()
         x, y = self.direction
-        new_head_pos = ((cur_head_pos[0] + (x * GRID_SIZE)) % SCREEN_WIDTH, (cur_head_pos[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
+        new_head_pos = ((cur_head_pos[0] + (x * GRID_SIZE)) % SCREEN_WIDTH, (cur_head_pos[1] +
+                                                                             (y * GRID_SIZE)) % SCREEN_HEIGHT)
         self.positions.insert(0, new_head_pos)
         if len(self.positions) > self.length:
             self.positions.pop()
