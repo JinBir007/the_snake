@@ -14,11 +14,10 @@ BOARD_BACKGROUND_COLOR = (0, 0, 0)
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Snake Game")
 
-# Загрузка изображения яблока.
-apple_image = pygame.image.load("apple.png")  # Путь к изображению яблока
+# Иконка яблока и ее расположение.
+apple_image = pygame.image.load("apple.png")
 
 
-# Базовый класс для игровых объектов.
 class GameObject:
     """Базовый класс для игровых объектов."""
     
@@ -30,7 +29,6 @@ class GameObject:
         pass
 
 
-# Класс для змейки.
 class Snake(GameObject):
     """Класс, представляющий змейку в игре."""
     
@@ -75,7 +73,6 @@ class Snake(GameObject):
         return self.positions[0]
 
 
-# Класс для яблока.
 class Apple(GameObject):
     """Класс, представляющий яблоко в игре."""
     
@@ -94,7 +91,6 @@ class Apple(GameObject):
         screen.blit(apple_image, self.position)
 
 
-# Функция для обработки нажатий клавиш.
 def handle_keys(snake):
     """Обрабатывает нажатия клавиш для управления змейкой."""
     for event in pygame.event.get():
@@ -112,7 +108,6 @@ def handle_keys(snake):
                 snake.update_direction((1, 0))
 
 
-# Функция для основного игрового цикла.
 def main():
     """Основная функция игры."""
     clock = pygame.time.Clock()
