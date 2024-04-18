@@ -72,9 +72,9 @@ class Snake(GameObject):
     """Класс для представления змейки на игровом поле."""
 
     def __init__(self):
-        ssuper().__init__((GRID_WIDTH // 2 * GRID_SIZE,
-                           GRID_HEIGHT // 2 * GRID_SIZE),
-                          SNAKE_COLOR)
+        super().__init__((GRID_WIDTH // 2 * GRID_SIZE,
+                          GRID_HEIGHT // 2 * GRID_SIZE),
+                         SNAKE_COLOR)
         self.length = 1
         self.positions = [self.position]
         self.direction = RIGHT
