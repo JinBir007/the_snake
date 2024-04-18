@@ -2,28 +2,23 @@ import pygame
 import random
 
 # Инициализация Pygame.
-
 pygame.init()
 
 # Параметры окна.
-
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 GRID_SIZE = 20
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
 
 # Создание окна.
-
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Snake Game")
 
 # Загрузка изображения яблока.
-
 apple_image = pygame.image.load("apple.png")  # Путь к изображению яблока
 
 
 # Базовый класс для игровых объектов.
-
 class GameObject:
     def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)):
         self.position = position
@@ -33,7 +28,6 @@ class GameObject:
 
 
 # Класс для змейки.
-
 class Snake(GameObject):
     def __init__(self):
         super().__init__()
@@ -73,8 +67,6 @@ class Snake(GameObject):
 
 
 # Класс для яблока.
-
-
 class Apple(GameObject):
     def __init__(self):
         super().__init__()
@@ -92,8 +84,6 @@ class Apple(GameObject):
 
 
 # Функция для обработки нажатий клавиш.
-
-
 def handle_keys(snake):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -111,8 +101,6 @@ def handle_keys(snake):
 
 
 # Функция для основного игрового цикла.
-
-
 def main():
     clock = pygame.time.Clock()
 
@@ -136,6 +124,5 @@ def main():
 
 
 # Запуск игры.
-
 if __name__ == "__main__":
     main()
