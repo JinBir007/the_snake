@@ -73,6 +73,13 @@ class Snake(GameObject):
         """Возвращает позицию головы змейки."""
         return self.positions[0]
 
+    def reset(self):
+        """Сбрасывает змейку в начальное состояние."""
+        self.length = 1
+        self.positions = [self.position]
+        self.direction = (1, 0)
+        self.next_direction = None
+
 
 class Apple(GameObject):
     """Класс, представляющий яблоко в игре."""
