@@ -56,8 +56,8 @@ class Apple(GameObject):
 
     def randomize_position(self):
         """Генерация случайной позиции для яблока."""
-        return (randint(0, GRID_WIDTH-1) * GRID_SIZE,
-                randint(0, GRID_HEIGHT-1) * GRID_SIZE)
+        return (randint(0, GRID_WIDTH-1) * GRID_SIZE, randint(0, GRID_HEIGHT-1)
+                * GRID_SIZE)
 
     def draw(self, screen):
         """Отрисовка яблока на экране."""
@@ -68,6 +68,7 @@ class Apple(GameObject):
 
 class Snake(GameObject):
     """Класс для представления змейки на игровом поле."""
+
     def __init__(self):
         super().__init__((GRID_WIDTH // 2
                           * GRID_SIZE, GRID_HEIGHT // 2
