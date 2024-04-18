@@ -41,7 +41,7 @@ clock = pygame.time.Clock()
 class GameObject:
     """Базовый класс игровых объектов."""
 
-    def __init__(self, position = (0, 0), body_color=(255, 255, 255)):
+    def __init__(self, position=(0, 0), body_color=(255, 255, 255)):
         self.position = position
         self.body_color = body_color
 
@@ -72,9 +72,9 @@ class Snake(GameObject):
     """Класс для представления змейки на игровом поле."""
 
     def __init__(self):
-        super().__init__((GRID_WIDTH // 2
-                           * GRID_SIZE, GRID_HEIGHT // 2
-                           * GRID_SIZE), SNAKE_COLOR)
+        ssuper().__init__((GRID_WIDTH // 2 * GRID_SIZE,
+                           GRID_HEIGHT // 2 * GRID_SIZE),
+                          SNAKE_COLOR)
         self.length = 1
         self.positions = [self.position]
         self.direction = RIGHT
@@ -138,7 +138,7 @@ def handle_keys(snake):
                 snake.update_direction(RIGHT)
 
 
-handle_keys = handle_keys  # Присваивание переменной handle_keys функции handle_keys
+handle_keys = handle_keys   # handle_keys в функцию handle_keys
 
 
 def update_snake(snake, apple):
