@@ -8,7 +8,15 @@ pygame.init()
 SCREEN_WIDTH = 640
 SCREEN_HEIGHT = 480
 GRID_SIZE = 20
+GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
+GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
+
+# Направления движения
+UP = (0, -1)
+DOWN = (0, 1)
+LEFT = (-1, 0)
+RIGHT = (1, 0)
 
 # Создание окна.
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -37,7 +45,7 @@ class Snake(GameObject):
         super().__init__()
         self.length = 1
         self.positions = [self.position]
-        self.direction = (1, 0)  # По умолчанию вправо.
+        self.direction = RIGHT  # По умолчанию вправо.
         self.next_direction = None
         self.body_color = (0, 255, 0)  # Зеленый цвет.
 
@@ -74,10 +82,10 @@ class Snake(GameObject):
         return self.positions[0]
 
     def reset(self):
-        """Сбрасывает змейку в начальное состояние."""
+        """Сбрасывает состояние змейки."""
         self.length = 1
         self.positions = [self.position]
-        self.direction = (1, 0)
+        self.direction = RIGHT
         self.next_direction = None
 
 
@@ -90,10 +98,8 @@ class Apple(GameObject):
 
     def randomize_position(self):
         """Рандомизирует позицию яблока на игровом поле."""
-        self.position = (random.randint(0, SCREEN_WIDTH // GRID_SIZE - 1)
-                         * GRID_SIZE,
-                         random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1)
-                         * GRID_SIZE)
+        self.position = (random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                         random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
 
     def draw(self):
         """Яблоко на игровом поле."""
@@ -108,13 +114,13 @@ def handle_keys(snake):
             quit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake.update_direction((0, -1))
+                snake.update_direction(UP)
             elif event.key == pygame.K_DOWN:
-                snake.update_direction((0, 1))
+                snake.update_direction(DOWN)
             elif event.key == pygame.K_LEFT:
-                snake.update_direction((-1, 0))
+                snake.update_direction(LEFT)
             elif event.key == pygame.K_RIGHT:
-                snake.update_direction((1, 0))
+                snake.update_direction(RIGHT)
 
 
 def main():
