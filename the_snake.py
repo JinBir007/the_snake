@@ -58,8 +58,8 @@ class Apple(GameObject):
 
     def randomize_position(self):
         """Генерация случайной позиции для яблока."""
-        return (randint(0, GRID_WIDTH -1) * GRID_SIZE, 
-                randint(0, GRID_HEIGHT -1) * GRID_SIZE)
+        return (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
 
     def draw(self, screen):
         """Отрисовка яблока на экране."""
