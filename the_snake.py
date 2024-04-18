@@ -78,7 +78,6 @@ class Apple(GameObject):
                          random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1)
                          * GRID_SIZE)
 
-    
     def draw(self):
         screen.blit(apple_image, self.position)
 
