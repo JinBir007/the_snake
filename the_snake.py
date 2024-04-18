@@ -20,15 +20,20 @@ apple_image = pygame.image.load("apple.png")  # Путь к изображени
 
 # Базовый класс для игровых объектов.
 class GameObject:
+    """Базовый класс для игровых объектов."""
+    
     def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)):
         self.position = position
 
     def draw(self):
+        """Отрисовывает игровой объект на экране."""
         pass
 
 
 # Класс для змейки.
 class Snake(GameObject):
+    """Класс, представляющий змейку в игре."""
+    
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -38,6 +43,7 @@ class Snake(GameObject):
         self.body_color = (0, 255, 0)  # Зеленый цвет.
 
     def update_direction(self, new_direction):
+        """Обновляет направление движения змейки."""
         if self.length > 1 and (new_direction[0] * -1,
                                 new_direction[1] * -1) == self.direction:
             return  # Не допускаем поворот на 180 градусов.
@@ -45,6 +51,7 @@ class Snake(GameObject):
             self.next_direction = new_direction
 
     def move(self):
+        """Перемещает змейку на один шаг."""
         if self.next_direction:
             self.direction = self.next_direction
             self.next_direction = None
@@ -58,21 +65,26 @@ class Snake(GameObject):
             self.positions.pop()
 
     def draw(self):
+        """Отрисовывает змейку на экране."""
         for position in self.positions:
             pygame.draw.rect(screen, self.body_color,
                              (position[0], position[1], GRID_SIZE, GRID_SIZE))
 
     def get_head_position(self):
+        """Возвращает позицию головы змейки."""
         return self.positions[0]
 
 
 # Класс для яблока.
 class Apple(GameObject):
+    """Класс, представляющий яблоко в игре."""
+    
     def __init__(self):
         super().__init__()
         self.randomize_position()
 
     def randomize_position(self):
+        """Рандомизирует позицию яблока на игровом поле."""
         self.position = (random.randint(0, SCREEN_WIDTH // GRID_SIZE - 1)
                          * GRID_SIZE,
                          random.randint(0, SCREEN_HEIGHT // GRID_SIZE - 1)
@@ -84,6 +96,7 @@ class Apple(GameObject):
 
 # Функция для обработки нажатий клавиш.
 def handle_keys(snake):
+    """Обрабатывает нажатия клавиш для управления змейкой."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -101,6 +114,7 @@ def handle_keys(snake):
 
 # Функция для основного игрового цикла.
 def main():
+    """Основная функция игры."""
     clock = pygame.time.Clock()
     snake = Snake()
     apple = Apple()
