@@ -40,10 +40,11 @@ clock = pygame.time.Clock()
 
 class GameObject:
     """Базовый класс игровых объектов."""
+
     def __init__(self, position=(0, 0), body_color=(255, 255, 255)):
         self.position = position
         self.body_color = body_color
-    
+
     def draw(self, screen):
         """Метод отрисовки объекта на экране."""
         raise NotImplementedError("Метод draw переопределен в подклассах.")
@@ -51,12 +52,13 @@ class GameObject:
 
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
+
     def __init__(self):
         super().__init__(self.randomize_position(), APPLE_COLOR)
 
     def randomize_position(self):
         """Генерация случайной позиции для яблока."""
-        return (randint(0, GRID_WIDTH-1) * GRID_SIZE, randint(0, GRID_HEIGHT-1)
+        return (randint(0, GRID_WIDTH -1) * GRID_SIZE, randint(0, GRID_HEIGHT -1)
                 * GRID_SIZE)
 
     def draw(self, screen):
