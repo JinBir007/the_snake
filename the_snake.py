@@ -10,13 +10,21 @@ SCREEN_HEIGHT = 480
 GRID_SIZE = 20
 GRID_WIDTH = SCREEN_WIDTH // GRID_SIZE
 GRID_HEIGHT = SCREEN_HEIGHT // GRID_SIZE
+
+# Цвет фона - черный
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
 
-# Направления движения
-UP = (0, -1)
-DOWN = (0, 1)
-LEFT = (-1, 0)
-RIGHT = (1, 0)
+# Цвет границы ячейки
+BORDER_COLOR = (93, 216, 228)
+
+# Цвет яблока
+APPLE_COLOR = (255, 0, 0)
+
+# Цвет змейки
+SNAKE_COLOR = (0, 255, 0)
+
+# Скорость движения змейки
+SPEED = 20
 
 # Создание окна.
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -45,9 +53,9 @@ class Snake(GameObject):
         super().__init__()
         self.length = 1
         self.positions = [self.position]
-        self.direction = RIGHT  # По умолчанию вправо.
+        self.direction = (1, 0)  # По умолчанию вправо.
         self.next_direction = None
-        self.body_color = (0, 255, 0)  # Зеленый цвет.
+        self.body_color = SNAKE_COLOR
 
     def update_direction(self, new_direction):
         """Обновляет направление движения змейки."""
@@ -85,7 +93,7 @@ class Snake(GameObject):
         """Сбрасывает состояние змейки."""
         self.length = 1
         self.positions = [self.position]
-        self.direction = RIGHT
+        self.direction = (1, 0)
         self.next_direction = None
 
 
@@ -103,7 +111,9 @@ class Apple(GameObject):
 
     def draw(self):
         """Яблоко на игровом поле."""
-        screen.blit(apple_image, self.position)
+        pygame.draw.rect(screen, APPLE_COLOR,
+                         (self.position[0], self.position[1],
+                          GRID_SIZE, GRID_SIZE))
 
 
 def handle_keys(snake):
@@ -114,13 +124,13 @@ def handle_keys(snake):
             quit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                snake.update_direction(UP)
+                snake.update_direction((0, -1))
             elif event.key == pygame.K_DOWN:
-                snake.update_direction(DOWN)
+                snake.update_direction((0, 1))
             elif event.key == pygame.K_LEFT:
-                snake.update_direction(LEFT)
+                snake.update_direction((-1, 0))
             elif event.key == pygame.K_RIGHT:
-                snake.update_direction(RIGHT)
+                snake.update_direction((1, 0))
 
 
 def main():
@@ -142,7 +152,7 @@ def main():
         apple.draw()
 
         pygame.display.update()
-        clock.tick(10)  # Ограничение скорости игры.
+        clock.tick(SPEED)  # Ограничение скорости игры.
 
 
 # Запуск игры.
