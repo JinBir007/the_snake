@@ -122,7 +122,8 @@ class Apple(GameObject):
     def draw(self):
         """Яблоко на игровом поле."""
         pygame.draw.rect(screen, APPLE_COLOR,
-                         (self.position[0], self.position[1], GRID_SIZE, GRID_SIZE))
+                         (self.position[0], self.position[1],
+                          GRID_SIZE, GRID_SIZE))
 
 
 def handle_keys(snake):
