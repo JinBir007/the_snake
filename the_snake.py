@@ -103,7 +103,6 @@ def handle_keys(snake):
 # Функция для основного игрового цикла.
 def main():
     clock = pygame.time.Clock()
-
     snake = Snake()
     apple = Apple()
 
