@@ -20,7 +20,6 @@ apple_image = pygame.image.load("apple.png")
 
 class GameObject:
     """Базовый класс для игровых объектов."""
-    
     def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)):
         self.position = position
 
@@ -31,7 +30,6 @@ class GameObject:
 
 class Snake(GameObject):
     """Класс, представляющий змейку в игре."""
-    
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -75,7 +73,6 @@ class Snake(GameObject):
 
 class Apple(GameObject):
     """Класс, представляющий яблоко в игре."""
-    
     def __init__(self):
         super().__init__()
         self.randomize_position()
@@ -88,6 +85,7 @@ class Apple(GameObject):
                          * GRID_SIZE)
 
     def draw(self):
+        """Яблоко на игровом поле."""
         screen.blit(apple_image, self.position)
 
 
