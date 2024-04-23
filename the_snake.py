@@ -131,9 +131,6 @@ def handle_keys(snake):
                 snake.update_direction(LEFT)
             elif event.key == pg.K_RIGHT and snake.direction != LEFT:
                 snake.update_direction(RIGHT)
-            elif event.key == pg.K_ESCAPE:
-                pg.quit()
-                raise SystemExit
 
 
 def update_snake(snake, apple):
@@ -146,9 +143,6 @@ def update_snake(snake, apple):
 
 def main():
     """Основная функция игры."""
-    # Инициализация PyGame:
-    pg.init()
-
     # Создание экземпляров объектов:
     snake = Snake()
     apple = Apple(snake.positions)
