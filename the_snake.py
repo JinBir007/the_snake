@@ -49,7 +49,7 @@ class GameObject:
 
     def draw(self):
         """Метод для отрисовки объекта."""
-        raise NotImplementedError("Метод draw должен быть определен в подклассах.")
+        raise NotImplementedError("Метод draw переопределен в подклассах.")
 
 
 class Apple(GameObject):
