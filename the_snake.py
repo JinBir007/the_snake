@@ -42,24 +42,20 @@ clock = pg.time.Clock()
 class GameObject:
     """Базовый класс игровых объектов."""
 
-    def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2),
-                 body_color=(255, 255, 255)):
+    def __init__(self, position=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2), body_color=(255, 255, 255)):
         self.position = position
         self.body_color = body_color
 
-    def draw_cell(self, position, color=None):
-        """Метод для отрисовки одной ячейки."""
-        color = color or self.body_color
-        rect = pg.Rect(position, (GRID_SIZE, GRID_SIZE))
-        pg.draw.rect(screen, color, rect)
-        pg.draw.rect(screen, BORDER_COLOR, rect, 1)
+    def draw(self):
+        """Метод для отрисовки объекта."""
+        raise NotImplementedError("Метод draw должен быть определен в подклассах.")
 
 
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
 
-    def __init__(self):
-        super().__init__(self.randomize_position(), APPLE_COLOR)
+    def __init__(self, occupied_cells):
+        super().__init__(self.randomize_position(occupied_cells), APPLE_COLOR)
 
     def randomize_position(self, occupied_cells):
         """Генерация случайной позиции для яблока."""
@@ -153,8 +149,8 @@ def main():
     pg.init()
 
     # Создание экземпляров объектов:
-    apple = Apple()
     snake = Snake()
+    apple = Apple(snake.positions)
 
     while True:
         clock.tick(SPEED)
