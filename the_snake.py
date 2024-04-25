@@ -45,10 +45,8 @@ class GameObject:
     SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
     def __init__(self, position=None, body_color=None): 
-        self.position = position if position is not None 
-            else GameObject.SCREEN_CENTER
-        self.body_color = body_color if body_color is not None
-            else (255, 255, 255)
+        self.position = position if position is not None else GameObject.SCREEN_CENTER
+        self.body_color = body_color if body_color is not None else (255, 255, 255)
 
     def draw(self):
         """Метод отрисовки объекта на экране."""
