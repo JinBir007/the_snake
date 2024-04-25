@@ -46,9 +46,9 @@ class GameObject:
 
     def __init__(self, position=None, body_color=None): 
         self.position = position if position is not None 
-        else GameObject.SCREEN_CENTER
+            else GameObject.SCREEN_CENTER
         self.body_color = body_color if body_color is not None
-        else (255, 255, 255)
+            else (255, 255, 255)
 
     def draw(self):
         """Метод отрисовки объекта на экране."""
