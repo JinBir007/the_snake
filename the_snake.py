@@ -56,13 +56,17 @@ class GameObject:
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
 
-    def __init__(self):
-        super().__init__(self.randomize_position(), APPLE_COLOR)
+    def __init__(self, occupied_cells=None):
+        super().__init__()
+        self.occupied_cells = occupied_cells if occupied_cells else []
+        self.randomize_position()
 
-    def randomize_position(self):
+    def randomize_position(self, occupied_cells=None):
         """Генерация случайной позиции для яблока."""
-        return (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
-                randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+        available_cells = [(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)
+                           if (x, y) not in (self.occupied_cells + (occupied_cells or []))]
+        if available_cells:
+            self.position = random.choice(available_cells)
 
     def draw(self):
         """Отрисовка яблока на экране."""
@@ -74,14 +78,10 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс для представления змейки на игровом поле."""
 
-    def __init__(self):
-        super().__init__((GRID_WIDTH // 2 * GRID_SIZE,
-                          GRID_HEIGHT // 2 * GRID_SIZE),
-                         SNAKE_COLOR)
-        self.length = 1
-        self.positions = [self.position]
-        self.direction = RIGHT
-        self.next_direction = None
+    def __init__(self, position=SCREEN_CENTER,
+                 body_color=SNAKE_COLOR, occupied_cells=None):
+        super().__init__(position, body_color)
+        self.occupied_cells = occupied_cells if occupied_cells else []
 
     def move(self):
         """Обновление позиции змейки."""
@@ -89,7 +89,7 @@ class Snake(GameObject):
         x, y = self.direction
         new_head_pos = ((cur_head_pos[0] + (x * GRID_SIZE)) % SCREEN_WIDTH,
                         (cur_head_pos[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
-        if len(self.positions) > 2 and new_head_pos in self.positions[2:]:
+        if new_head_pos in self.positions[2:]:
             self.reset()
         else:
             self.positions.insert(0, new_head_pos)
@@ -98,7 +98,7 @@ class Snake(GameObject):
 
     def update_direction(self, new_direction):
         """Обновление направления движения змейки."""
-        self.next_direction = new_direction
+        self.direction = new_direction
 
     def get_head_position(self):
         """Возвращает текущую позицию головы змейки."""
@@ -124,21 +124,21 @@ class Snake(GameObject):
 
 
 # Определение функции handle_keys в модуле the_snake
-def handle_keys(snake):
+def handle_keys(game_object):
     """Обработка пользовательского ввода."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             raise SystemExit
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and snake.direction != DOWN:
-                snake.update_direction(UP)
-            elif event.key == pygame.K_DOWN and snake.direction != UP:
-                snake.update_direction(DOWN)
-            elif event.key == pygame.K_LEFT and snake.direction != RIGHT:
-                snake.update_direction(LEFT)
-            elif event.key == pygame.K_RIGHT and snake.direction != LEFT:
-                snake.update_direction(RIGHT)
+            if event.key == pygame.K_UP and game_object.direction != DOWN:
+                game_object.update_direction(UP)
+            elif event.key == pygame.K_DOWN and game_object.direction != UP:
+                game_object.update_direction(DOWN)
+            elif event.key == pygame.K_LEFT and game_object.direction != RIGHT:
+                game_object.update_direction(LEFT)
+            elif event.key == pygame.K_RIGHT and game_object.direction != LEFT:
+                game_object.update_direction(RIGHT)
 
 
 def update_snake(snake, apple):
