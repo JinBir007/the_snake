@@ -127,21 +127,21 @@ class Snake(GameObject):
 
 
 # Определение функции handle_keys в модуле the_snake
-def handle_keys(GameObject):
+def handle_keys(gameobject):
     """Обработка пользовательского ввода."""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             raise SystemExit
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and GameObject.direction != DOWN:
-                GameObject.update_direction(UP)
-            elif event.key == pygame.K_DOWN and GameObject.direction != UP:
-                GameObject.update_direction(DOWN)
-            elif event.key == pygame.K_LEFT and GameObject.direction != RIGHT:
-                GameObject.update_direction(LEFT)
-            elif event.key == pygame.K_RIGHT and GameObject.direction != LEFT:
-                GameObject.update_direction(RIGHT)
+            if event.key == pygame.K_UP and gameobject.direction != DOWN:
+                gameobject.update_direction(UP)
+            elif event.key == pygame.K_DOWN and gameobject.direction != UP:
+                gameobject.update_direction(DOWN)
+            elif event.key == pygame.K_LEFT and gameobject.direction != RIGHT:
+                gameobject.update_direction(LEFT)
+            elif event.key == pygame.K_RIGHT and gameobject.direction != LEFT:
+                gameobject.update_direction(RIGHT)
 
 
 def update_snake(snake, apple):
