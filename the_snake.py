@@ -1,4 +1,4 @@
-from random import randint
+from random import choice, randint
 
 import pygame
 
@@ -64,8 +64,10 @@ class Apple(GameObject):
 
     def randomize_position(self, occupied_cells=None):
         """Генерация случайной позиции для яблока."""
-        available_cells = [(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)
-                           if (x, y) not in (self.occupied_cells + (occupied_cells or []))]
+        available_cells = [(x, y) for x in range(GRID_WIDTH)
+                           for y in range(GRID_HEIGHT)
+                           if (x, y) not in (self.occupied_cells +
+                                             (occupied_cells or []))]
         if available_cells:
             self.position = random.choice(available_cells)
 
