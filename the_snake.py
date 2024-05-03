@@ -85,6 +85,8 @@ class Snake(GameObject):
                  body_color=SNAKE_COLOR, occupied_cells=None):
         super().__init__(position, body_color)
         self.occupied_cells = occupied_cells if occupied_cells else []
+        self.positions = [position]
+        self.direction = RIGHT
 
     def move(self):
         """Обновление позиции змейки."""
