@@ -87,6 +87,7 @@ class Snake(GameObject):
         self.occupied_cells = occupied_cells if occupied_cells else []
         self.positions = [position]
         self.direction = RIGHT
+        self.length = 1
 
     def move(self):
         """Обновление позиции змейки."""
