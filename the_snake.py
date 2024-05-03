@@ -38,11 +38,10 @@ pygame.display.set_caption('Змейка')
 # Настройка времени:
 clock = pygame.time.Clock()
 
+SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
 class GameObject:
     """Базовый класс игровых объектов."""
-
-    SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
     def __init__(self, position=None, body_color=None):
         self.position = (
