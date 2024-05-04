@@ -63,17 +63,16 @@ class GameObject:
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
 
-    def __init__(self, position=SCREEN_CENTER, body_color=APPLE_COLOR):
+    def __init__(self, position=SCREEN_CENTER,
+                 body_color=APPLE_COLOR, occupied_cells = set()):
         super().__init__(position, body_color)
-        self.occupied_cells = set()
-        self.randomize_position()
+        self.randomize_position(occupied_cells)
 
-    def randomize_position(self):
+    def randomize_position(self, occupied_cells = set()):
         """Генерация случайной позиции для яблока."""
-        available_cells = ALL_CELLS - self.occupied_cells
+        available_cells = ALL_CELLS.copy() - occupied_cells
         if available_cells:
             self.position = random.choice(list(available_cells))
-            self.occupied_cells.add(self.position)
 
     def draw(self):
         """Отрисовка яблока на экране."""
