@@ -86,12 +86,9 @@ class Snake(GameObject):
     """Класс для представления змейки на игровом поле."""
 
     def __init__(self, position=SCREEN_CENTER,
-                 body_color=SNAKE_COLOR, occupied_cells=None):
+                 body_color=SNAKE_COLOR):
         super().__init__(position, body_color)
-        self.occupied_cells = occupied_cells if occupied_cells else []
-        self.positions = [position]
-        self.direction = RIGHT
-        self.length = 1
+        self.reset()
 
     def move(self):
         """Обновление позиции змейки."""
@@ -155,8 +152,7 @@ def update_snake(snake, apple):
     snake.move()
     if snake.get_head_position() == apple.position:
         snake.length += 1
-        apple.position = apple.randomize_position()
-
+        apple.randomize_position(set(snake.positions))
 
 def main():
     """Основная функция игры."""
