@@ -60,21 +60,17 @@ class GameObject:
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
     
-    # Все возможные клетки на поле:
-    ALL_CELLS = {(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)}
-    
     def __init__(self, position=SCREEN_CENTER,
                  body_color=APPLE_COLOR, occupied_cells=set()):
         super().__init__(position, body_color)
         self.occupied_cells = occupied_cells
-        self.randomize_position(occupied_cells)
+        self.randomize_position(occupied_cells.copy())
 
     def randomize_position(self, occupied_cells=set()):
         """Генерация случайной позиции для яблока."""
-        # Копия всех клеток на поле
-        available_cells = self.ALL_CELLS.copy()
-        # Вычитаем из общего занятые
-        available_cells -= occupied_cells
+        all_cells = {(x, y) for x in range(GRID_WIDTH)
+                     for y in range(GRID_HEIGHT)}
+        available_cells = all_cells - (self.occupied_cells | occupied_cells)
         if available_cells:
             self.position = random.choice(list(available_cells))
             self.occupied_cells.add(self.position)
@@ -123,7 +119,6 @@ class Snake(GameObject):
         self.length = 1
         self.positions = [self.position]
         self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
-        self.next_direction = None
 
     def draw(self):
         """Отрисовка змейки на экране."""
