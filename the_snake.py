@@ -47,6 +47,7 @@ DEFAULT_BODY_COLOR = (255, 255, 255)
 # Все клетки на поле:
 ALL_CELLS = {(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)}
 
+
 class GameObject:
     """Базовый класс игровых объектов."""
 
