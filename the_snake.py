@@ -87,12 +87,12 @@ class Snake(GameObject):
     def __init__(self, position=SCREEN_CENTER, body_color=SNAKE_COLOR):
         super().__init__(position, body_color)
         self.reset()
-        self.direction = str(RIGHT)
+        self.direction = RIGHT
 
     def move(self):
         """Обновление позиции змейки."""
         cur_head_pos = self.get_head_position()
-        x, y = eval(self.direction)
+        x, y = self.direction
         new_head_pos = ((cur_head_pos[0] + (x * GRID_SIZE)) % SCREEN_WIDTH,
                         (cur_head_pos[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
         if new_head_pos in self.positions[2:]:
@@ -114,7 +114,7 @@ class Snake(GameObject):
         """Сброс состояния змейки."""
         self.length = 1
         self.positions = [self.position]
-        self.direction = str(random.choice([UP, DOWN, LEFT, RIGHT]))
+        self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
 
     def draw(self):
         """Отрисовка змейки на экране."""
