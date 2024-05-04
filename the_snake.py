@@ -64,11 +64,11 @@ class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
 
     def __init__(self, position=SCREEN_CENTER,
-                 body_color=APPLE_COLOR, occupied_cells = set()):
+                 body_color=APPLE_COLOR, occupied_cells=set()):
         super().__init__(position, body_color)
         self.randomize_position(occupied_cells)
 
-    def randomize_position(self, occupied_cells = set()):
+    def randomize_position(self, occupied_cells=set()):
         """Генерация случайной позиции для яблока."""
         available_cells = ALL_CELLS.copy() - occupied_cells
         if available_cells:
