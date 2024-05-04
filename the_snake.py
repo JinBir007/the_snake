@@ -59,7 +59,7 @@ class GameObject:
 
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
-    
+
     def __init__(self, position=SCREEN_CENTER,
                  body_color=APPLE_COLOR, occupied_cells=set()):
         super().__init__(position, body_color)
@@ -153,6 +153,7 @@ def update_snake(snake, apple):
     if snake.get_head_position() == apple.position:
         snake.length += 1
         apple.randomize_position(set(snake.positions))
+
 
 def main():
     """Основная функция игры."""
