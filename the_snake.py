@@ -45,7 +45,9 @@ SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 DEFAULT_BODY_COLOR = (255, 255, 255)
 
 # Все клетки на поле:
-ALL_CELLS = {(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)}
+ALL_CELLS = {(x * GRID_SIZE, y * GRID_SIZE)
+             for x in range(GRID_WIDTH)
+             for y in range(GRID_HEIGHT)}
 
 
 class GameObject:
