@@ -44,6 +44,8 @@ SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 # Цвет по умолчанию:
 DEFAULT_BODY_COLOR = (255, 255, 255)
 
+# Все клетки на поле:
+ALL_CELLS = {(x, y) for x in range(GRID_WIDTH) for y in range(GRID_HEIGHT)}
 
 class GameObject:
     """Базовый класс игровых объектов."""
@@ -60,17 +62,14 @@ class GameObject:
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
 
-    def __init__(self, position=SCREEN_CENTER,
-                 body_color=APPLE_COLOR, occupied_cells=set()):
+    def __init__(self, position=SCREEN_CENTER, body_color=APPLE_COLOR):
         super().__init__(position, body_color)
-        self.occupied_cells = occupied_cells
-        self.randomize_position(occupied_cells.copy())
+        self.occupied_cells = set()
+        self.randomize_position()
 
-    def randomize_position(self, occupied_cells=set()):
+    def randomize_position(self):
         """Генерация случайной позиции для яблока."""
-        all_cells = {(x, y) for x in range(GRID_WIDTH)
-                     for y in range(GRID_HEIGHT)}
-        available_cells = all_cells - (self.occupied_cells | occupied_cells)
+        available_cells = ALL_CELLS - self.occupied_cells
         if available_cells:
             self.position = random.choice(list(available_cells))
             self.occupied_cells.add(self.position)
@@ -85,15 +84,15 @@ class Apple(GameObject):
 class Snake(GameObject):
     """Класс для представления змейки на игровом поле."""
 
-    def __init__(self, position=SCREEN_CENTER,
-                 body_color=SNAKE_COLOR):
+    def __init__(self, position=SCREEN_CENTER, body_color=SNAKE_COLOR):
         super().__init__(position, body_color)
         self.reset()
+        self.direction = str(RIGHT)
 
     def move(self):
         """Обновление позиции змейки."""
         cur_head_pos = self.get_head_position()
-        x, y = self.direction
+        x, y = eval(self.direction)
         new_head_pos = ((cur_head_pos[0] + (x * GRID_SIZE)) % SCREEN_WIDTH,
                         (cur_head_pos[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
         if new_head_pos in self.positions[2:]:
@@ -115,7 +114,7 @@ class Snake(GameObject):
         """Сброс состояния змейки."""
         self.length = 1
         self.positions = [self.position]
-        self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
+        self.direction = str(random.choice([UP, DOWN, LEFT, RIGHT]))
 
     def draw(self):
         """Отрисовка змейки на экране."""
