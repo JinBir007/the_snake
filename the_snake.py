@@ -41,11 +41,14 @@ clock = pygame.time.Clock()
 # Центр экрана:
 SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
 
+# Цвет по умолчанию:
+DEFAULT_BODY_COLOR = (255, 255, 255)
+
 
 class GameObject:
     """Базовый класс игровых объектов."""
 
-    def __init__(self, position=SCREEN_CENTER, body_color=(255, 255, 255)):
+    def __init__(self, position=SCREEN_CENTER, body_color=DEFAULT_BODY_COLOR):
         self.position = position
         self.body_color = body_color
 
