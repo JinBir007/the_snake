@@ -122,7 +122,7 @@ class Snake(GameObject):
         """Сброс состояния змейки."""
         self.length = 1
         self.positions = [self.position]
-        self.direction = RIGHT
+        self.direction = random.choice([UP, DOWN, LEFT, RIGHT])
         self.next_direction = None
 
     def draw(self):
