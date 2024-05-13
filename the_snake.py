@@ -2,6 +2,8 @@ import random
 
 import pygame
 
+import time
+
 # Константы для размеров поля и сетки:
 SCREEN_WIDTH, SCREEN_HEIGHT = 640, 480
 GRID_SIZE = 20
@@ -14,35 +16,27 @@ DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 
-# Цвет фона - черный:
+# Цвета
 BOARD_BACKGROUND_COLOR = (0, 0, 0)
-
-# Цвет границы ячейки
 BORDER_COLOR = (93, 216, 228)
-
-# Цвет яблока
-APPLE_COLOR = (255, 0, 0)
-
-# Цвет змейки
 SNAKE_COLOR = (0, 255, 0)
+DEFAULT_BODY_COLOR = (255, 255, 255)
 
 # Скорость движения змейки:
-SPEED = 20
+SPEED = 5
+
+# Пути к изображениям
+APPLE_IMAGE_PATH = "apple.png"
+OBSTACLE_IMAGE_PATH = "556.png"
 
 # Настройка игрового окна:
+pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 0, 32)
-
-# Заголовок окна игрового поля:
 pygame.display.set_caption('Змейка')
-
-# Настройка времени:
 clock = pygame.time.Clock()
 
 # Центр экрана:
 SCREEN_CENTER = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-
-# Цвет по умолчанию:
-DEFAULT_BODY_COLOR = (255, 255, 255)
 
 # Все клетки на поле:
 ALL_CELLS = {(x * GRID_SIZE, y * GRID_SIZE)
@@ -65,10 +59,9 @@ class GameObject:
 class Apple(GameObject):
     """Класс для представления яблока на игровом поле."""
 
-    def __init__(self, position=SCREEN_CENTER,
-                 body_color=APPLE_COLOR, occupied_cells=set()):
-        super().__init__(position, body_color)
-        self.randomize_position(occupied_cells)
+    def __init__(self, position=SCREEN_CENTER):
+        super().__init__(position)
+        self.image = pygame.image.load(APPLE_IMAGE_PATH)
 
     def randomize_position(self, occupied_cells=set()):
         """Генерация случайной позиции для яблока."""
@@ -78,9 +71,8 @@ class Apple(GameObject):
 
     def draw(self):
         """Отрисовка яблока на экране."""
-        rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(screen, self.body_color, rect)
-        pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
+        rect = self.image.get_rect(topleft=self.position)
+        screen.blit(self.image, rect)
 
 
 class Snake(GameObject):
@@ -97,6 +89,8 @@ class Snake(GameObject):
         x, y = self.direction
         new_head_pos = ((cur_head_pos[0] + (x * GRID_SIZE)) % SCREEN_WIDTH,
                         (cur_head_pos[1] + (y * GRID_SIZE)) % SCREEN_HEIGHT)
+
+        # Проверяем столкновение головы змейки с ее телом
         if new_head_pos in self.positions[2:]:
             self.reset()
         else:
@@ -130,7 +124,29 @@ class Snake(GameObject):
         pygame.draw.rect(screen, BORDER_COLOR, head_rect, 1)
 
 
-# Определение функции handle_keys в модуле the_snake
+class Obstacle(GameObject):
+    """Класс для представления препятствий на игровом поле."""
+
+    def __init__(self, position, body_color=BORDER_COLOR):
+        super().__init__(position, body_color)
+        self.image = pygame.image.load(OBSTACLE_IMAGE_PATH)
+
+    def draw(self):
+        """Отрисовка препятствия на экране."""
+        rect = self.image.get_rect(topleft=self.position)
+        screen.blit(self.image, rect)
+
+
+def create_obstacles():
+    """Создание препятствий на поле."""
+    obstacles = set()
+    while len(obstacles) < 10:
+        obstacle_position = (random.randint(0, GRID_WIDTH - 1) * GRID_SIZE,
+                             random.randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
+        obstacles.add(obstacle_position)
+    return [Obstacle(position) for position in obstacles]
+
+
 def handle_keys(gameobject):
     """Обработка пользовательского ввода."""
     for event in pygame.event.get():
@@ -148,36 +164,44 @@ def handle_keys(gameobject):
                 gameobject.update_direction(RIGHT)
 
 
-def update_snake(snake, apple):
+def update_snake(snake, apple, obstacles):
     """Обновление состояния змейки."""
     snake.move()
     if snake.get_head_position() == apple.position:
         snake.length += 1
         apple.randomize_position(set(snake.positions))
+    # Проверяем столкновение с препятствиями
+    if snake.get_head_position() in [obstacle.position for obstacle in obstacles]:
+        snake.reset()
 
 
 def main():
     """Основная функция игры."""
-    # Инициализация PyGame:
-    pygame.init()
 
-    # Создание экземпляров объектов:
     apple = Apple()
     snake = Snake()
+    obstacles = create_obstacles()
+    last_time = time.time()
 
     while True:
+        current_time = time.time()
+        if current_time - last_time >= 30:
+            last_time = current_time
+            obstacles = create_obstacles()  # Модификация препятствий каждые 30 секунд
+
         clock.tick(SPEED)
 
-        # Обработка действий пользователя:
         handle_keys(snake)
 
-        # Обновление состояния змейки:
-        update_snake(snake, apple)
+        update_snake(snake, apple, obstacles)
 
-        # Отрисовка объектов:
         screen.fill(BOARD_BACKGROUND_COLOR)
+
         apple.draw()
         snake.draw()
+        for obstacle in obstacles:
+            obstacle.draw()
+
         pygame.display.update()
 
 
